@@ -12,19 +12,23 @@ import frc.robot.Constants;
 
 public class pneumaticsSubsytem extends SubsystemBase {
   private final DoubleSolenoid solenoid;
+  private final DoubleSolenoid secondSolenoid;
 
   public pneumaticsSubsytem() {
+    secondSolenoid = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, Constants.solenoidTwoForwardPort, Constants.solenoidTwoBackwardPort);
     solenoid = new DoubleSolenoid(10, PneumaticsModuleType.REVPH, Constants.solenoidForwardPort, Constants.solenoidBackwardPort);
-    solenoid.set(DoubleSolenoid.Value.kReverse);
+    solenoid.set(DoubleSolenoid.Value.kForward);
+    secondSolenoid.set(DoubleSolenoid.Value.kForward);
   }
 
   public void reversePneumaticsState() {
     solenoid.toggle();
+    secondSolenoid.toggle();
   }
   
   @Override
   public void periodic() {
-    System.out.println(solenoid.get());
+    System.out.println("First: " + solenoid.get() + ", Second: " + secondSolenoid.get());
   }
 
 }
